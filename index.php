@@ -51,7 +51,7 @@ cursor:default;
 // ------ DATA -------
 var civs = ["AmericaTheodoreRoosevelt", "ArabiaSaladin", "AztecMontezuma", "BrazilPedroII", "ChinaQinShiHuang", "EgyptCleopatra", "EnglandVictoria", "FranceCatherinedeMedici", "GermanyFrederickBarbarossa", "GreecePericles", "GreeceGorgo", "IndiaGandhi", "JapanHojoTokimune", "KongoMvembaANzinga", "NorwayHaraldHardrada", "RomeTrajan", "RussiaPeterTheGreat", "ScythiaTomyris", "SpainPhilipII", "SumeriaGilgamesh"];
 
-var civLongNames = ["America - Theodore Roosevelt", "Arabia - Saladin", "Aztec - Montezuma", "Brazil - Pedro II", "China - Qin Shi Huang", "Egypt - Cleopatra", "England - Victoria", "France - Catherine de Medici", "Germany - Frederick Barbarossa", "Greece - Pericles", "Greece - Gorgo", "India - Gandhi", "Japan - Hojo Tokimune", "Kongo - Mvemba a Nzinga", "Norway - Harald Hardrada", "Rome - Trajan", "Russia - Peter the Great", "Scythia - Tomyris", "Spain - Philip II", "Sumeria - Gilgamesh"];
+var civLongNames = ["America (Theodore Roosevelt)", "Arabia (Saladin)", "Aztec (Montezuma)", "Brazil (Pedro II)", "China (Qin Shi Huang)", "Egypt (Cleopatra)", "England (Victoria)", "France (Catherine de Medici)", "Germany (Frederick Barbarossa)", "Greece (Pericles)", "Greece (Gorgo)", "India (Gandhi)", "Japan (Hojo Tokimune)", "Kongo (Mvemba a Nzinga)", "Norway (Harald Hardrada)", "Rome (Trajan)", "Russia (Peter the Great)", "Scythia (Tomyris)", "Spain (Philip II)", "Sumeria (Gilgamesh)"];
 
 // ------ MAIN FUNCTIONS ------
 function createGame()
@@ -69,7 +69,7 @@ function createGame()
 		var civCheckbox = document.getElementById("checkbox_" + civs[i]);
 		if (civCheckbox.checked)
 		{
-			allowedCivs.push(civLongNames[i]);
+			allowedCivs.push(i);
 		}
 	}
 	
@@ -88,15 +88,17 @@ function createGame()
 		result += "<table frame='box' cellspacing='5' bgcolor='#BBFFBB'>";
 		for (var iPlayerIndex = 0; iPlayerIndex < requestedNumPlayers; iPlayerIndex++)
 		{
-			result += "<tr><td><b>Player " + iPlayerIndex + ":</b> Choose from <b>";
+			var iPlayerIndexDisplay = iPlayerIndex + 1;
+			result += "<tr><td><b>Player " + iPlayerIndexDisplay + ":</b> Choose from <b>";
 			for (var iOptionIndex = 0; iOptionIndex < requestedNumCivsToAssign; iOptionIndex++)
 			{
-				var civName = allowedCivs[(iPlayerIndex * requestedNumCivsToAssign) + iOptionIndex];
+				var civName = civLongNames[allowedCivs[(iPlayerIndex * requestedNumCivsToAssign) + iOptionIndex]];
+				var civImgName = civs[allowedCivs[(iPlayerIndex * requestedNumCivsToAssign) + iOptionIndex]];
 				if (iOptionIndex > 0)
 				{
 					result += ", ";
 				}
-				result += "<img src='img/" + civName + ".png' width='16' height='16' /> " + civName;
+				result += "<img src='img/" + civImgName + ".png' width='24' height='24' /> " + civName;
 			}
 			result += "</td></tr>";
 		}
@@ -216,13 +218,14 @@ var tableBannedCivs = document.getElementById('bannedCivs');
 for (i = 0; i < numRows; i++) {
     var tr = document.createElement('TR');
 	tr.innerHTML = "";
+	tr.valign = "middle";
     for (j = 0; j < numCols; j++) {
 		var civID = i + (numRows * j);
 		if (civID < civs.length)
 		{
 			tr.innerHTML += "<td valign='middle' bgColor='#FFFFFF' id='table_cell_" + civs[civID] + "' onmouseover=civMouseOver('" + civs[civID] + "') onmouseout=civMouseOut('" + civs[civID] + "') >" +
 							"<input id='checkbox_" + civs[civID] + "' type='checkbox' style='display:none' value='" + civs[civID] + "' onclick=updateStrikeout('" + civs[civID] + "') checked='true'>" +
-							"<label for='checkbox_" + civs[civID] + "'><img src='img/" + civLongNames[civID] + ".png' width='16' height='16' /></label>" +
+							"<label for='checkbox_" + civs[civID] + "'><img src='img/" + civs[civID] + ".png' width='24' height='24' /></label>" +
 							" <span id='span_checkbox_" + civs[civID] + "'><label for='checkbox_" + civs[civID] + "'>" + civLongNames[civID] + "</label></span></td>";
 		}
 		else
